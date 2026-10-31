@@ -1,0 +1,116 @@
+name: Automation V3 — 4K/1440p Ifverse x TED-Ed Swarm + 5 Daily Shorts + Omni-Platform Publisher
+
+on:
+  schedule:
+    # Runs automatically every day at 11:30 UTC (17:00 IST / 06:30 EST) so the 4K Long-Form video
+    # and all 5 Standalone Shorts are rendered, QC'd, and scheduled ahead of the 11:00–21:00 EST US Peak Windows!
+    - cron: '30 11 * * *'
+  workflow_dispatch:
+    inputs:
+      style:
+        description: 'Visual Style Preset (ted_ifverse, dusk, midnight, golden, neon, storybook, emerald, ember, arctic, sakura, retro)'
+        required: false
+        default: 'ted_ifverse'
+      resolution:
+        description: 'Output Resolution — 2160p (4K UHD Preferable Default) or 1440p (QHD Bare Minimum)'
+        required: false
+        default: '2160p'
+      shorts_count:
+        description: 'Number of Standalone 9:16 Vertical Shorts/Reels to Generate Daily'
+        required: false
+        default: '5'
+      voice:
+        description: 'Edge-TTS Neural Narrator Voice (US High-RPM Persona)'
+        required: false
+        default: 'en-US-AndrewNeural'
+
+permissions:
+  contents: write
+  models: read   # Enables built-in FREE GitHub Models (GPT-4o, DeepSeek-R1, Llama-3.3-70B, GPT-4o-mini) via GITHUB_TOKEN!
+
+jobs:
+  generate-4k-longform-5shorts-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+
+    steps:
+      - name: Checkout Automation V3 Swarm Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22 LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install System & Studio Dependencies (FFmpeg, Playwright Chromium, Edge-TTS, Pillow, Google API)
+        run: |
+          sudo apt-get update && sudo apt-get install -y ffmpeg rclone curl
+          pip install --upgrade pip
+          pip install numpy scipy pillow edge-tts google-api-python-client google-auth google-auth-oauthlib google-auth-httplib2
+          cd studio && npm install && npx playwright install --with-deps chromium
+
+      - name: Run 9-Subagent Swarm -> 4K/1440p Long-Form + 5 Standalone Shorts -> Omni-Platform US Schedule
+        env:
+          # 1. Built-in GitHub Models token (0 setup required — automatically provided by GitHub Actions!)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # 2. Optional Free Backup AI Keys (Supports comma-separated multiple keys per secret: "key1,key2")
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+          GITHUB_MODELS_TOKEN: ${{ secrets.GITHUB_MODELS_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          # 3. YouTube Data API v3 (Main 4K Video + 5 YouTube Shorts Scheduled for US Eastern Peak)
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          # 4. Meta / Facebook Page & Instagram Creator Reels API (Optional — Free Graph API)
+          META_PAGE_ID: ${{ secrets.META_PAGE_ID }}
+          META_PAGE_ACCESS_TOKEN: ${{ secrets.META_PAGE_ACCESS_TOKEN }}
+          INSTAGRAM_BUSINESS_ACCOUNT_ID: ${{ secrets.INSTAGRAM_BUSINESS_ACCOUNT_ID }}
+          PUBLIC_MEDIA_CDN_URL: ${{ secrets.PUBLIC_MEDIA_CDN_URL }}
+          # 5. Snapchat Spotlight & Dailymotion / X (Optional — India-Compliant High-RPM Platforms)
+          SNAPCHAT_PROFILE_ID: ${{ secrets.SNAPCHAT_PROFILE_ID }}
+          SNAPCHAT_ACCESS_TOKEN: ${{ secrets.SNAPCHAT_ACCESS_TOKEN }}
+          DAILYMOTION_API_KEY: ${{ secrets.DAILYMOTION_API_KEY }}
+          DAILYMOTION_API_SECRET: ${{ secrets.DAILYMOTION_API_SECRET }}
+          DAILYMOTION_USERNAME: ${{ secrets.DAILYMOTION_USERNAME }}
+          DAILYMOTION_PASSWORD: ${{ secrets.DAILYMOTION_PASSWORD }}
+          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+          # 6. Free Cloud Vault Backup
+          RCLONE_CONFIG: ${{ secrets.RCLONE_CONFIG }}
+          RCLONE_REMOTE: ${{ secrets.RCLONE_REMOTE }}
+        run: |
+          python3 pipeline/run_daily_v2.py \
+            --style "${{ github.event.inputs.style || 'ted_ifverse' }}" \
+            --resolution "${{ github.event.inputs.resolution || '2160p' }}" \
+            --shorts-count "${{ github.event.inputs.shorts_count || '5' }}" \
+            --voice "${{ github.event.inputs.voice || 'en-US-AndrewNeural' }}" \
+            --workers 2
+
+      - name: Upload 4K Long-Form Video, 5 Standalone Shorts, Thumbnails & QC Sheets
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-4k-omni-bundle-${{ github.run_number }}
+          path: |
+            studio/projects/*/out/*.mp4
+            studio/projects/*/out/thumbnail.*
+            studio/projects/*/out/multi_platform_publish_report.json
+            studio/projects/*/out/shorts/*.mp4
+            studio/projects/*/out/shorts/*_thumb.*
+            studio/projects/*/out/shorts/shorts_manifest.json
+            studio/projects/*/build/final_qc_sheet.png
+          retention-days: 30
+
+      - name: Commit Updated Topic History & Reset 60-Day GitHub Cron Timer
+        run: |
+          git config user.name "automation-v3-bot"
+          git config user.email "automation-v3-bot@users.noreply.github.com"
+          git add archive/published_history.json || true
+          git diff --staged --quiet || git commit -m "chore(archive): log daily 4K video + 5 shorts [skip ci]"
+          git push
