@@ -154,16 +154,25 @@ def publish_to_youtube_v3(
     from googleapiclient.discovery import build
     from googleapiclient.http import MediaFileUpload
 
-    creds = Credentials(
-        None,
-        refresh_token=refresh_token,
-        token_uri="https://oauth2.googleapis.com/token",
-        client_id=client_id,
-        client_secret=client_secret,
-        scopes=["https://www.googleapis.com/auth/youtube.upload"],
-    )
-    creds.refresh(Request())
-    youtube = build("youtube", "v3", credentials=creds)
+    try:
+        creds = Credentials(
+            None,
+            refresh_token=refresh_token,
+            token_uri="https://oauth2.googleapis.com/token",
+            client_id=client_id,
+            client_secret=client_secret,
+            scopes=["https://www.googleapis.com/auth/youtube.upload"],
+        )
+        creds.refresh(Request())
+        youtube = build("youtube", "v3", credentials=creds)
+    except Exception as e:
+        print(f"[YouTube V3 Warning] Credential refresh failed ({e}); queuing ready-to-publish manifest.")
+        return {
+            "status": "credential_refresh_failed",
+            "error": str(e),
+            "scheduled_us_peak_utc": schedule_info["long_form_publish_at_utc"],
+            "shorts_scheduled_count": len(shorts_list),
+        }
 
     chapters_str = "\n".join(f"{c.get('time', '0:00')} {c.get('title', 'Chapter')}" for c in script_data.get("chapters", []))
     refs_str = "\n".join(f"• {r}" for r in script_data.get("scientific_references", []))

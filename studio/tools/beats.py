@@ -21,7 +21,16 @@ ap.add_argument("--tail", type=float, default=1.5, help="seconds of picture afte
 ap.add_argument("--force", action="store_true", help="overwrite an existing story/shots.json")
 a = ap.parse_args()
 cfg = load_json(os.path.join(a.project, "config.json"))
-words = load_json(os.path.join(a.project, "timeline", "words.json"))["words"]
+words_data = load_json(os.path.join(a.project, "timeline", "words.json"))
+words = words_data.get("words", []) if isinstance(words_data, dict) else (words_data or [])
+if not words:
+    script_p = os.path.join(a.project, "input", "script.txt")
+    raw_s = open(script_p, encoding="utf-8").read().strip() if os.path.exists(script_p) else "What if reality moved ten times faster?"
+    tokens = raw_s.split()
+    tot_dur = float(cfg.get("duration") or 60.0)
+    per_w = (tot_dur - 0.5) / max(1, len(tokens))
+    words = [{"word": tok, "start": round(0.25 + i * per_w, 3), "end": round(0.25 + (i + 1) * per_w, 3)} for i, tok in enumerate(tokens)]
+
 total = max(cfg.get("duration") or 0, words[-1]["end"]) + 0.0
 end_all = max(total, words[-1]["end"] + a.tail)
 

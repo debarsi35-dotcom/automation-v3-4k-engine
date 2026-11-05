@@ -47,7 +47,12 @@ def _split_keys(env_var: str) -> list[str]:
     raw = os.environ.get(env_var, "").strip()
     if not raw:
         return []
-    return [k.strip() for k in raw.split(",") if k.strip()]
+    cleaned = []
+    for k in raw.split(","):
+        item = k.strip().strip('"').strip("'").strip()
+        if item:
+            cleaned.append(item)
+    return cleaned
 
 
 def build_candidate_pool(task_tier: str = "general") -> list[dict]:
@@ -111,11 +116,7 @@ def build_candidate_pool(task_tier: str = "general") -> list[dict]:
 
     # 6. Google Gemini Multi-Model Cascade (each model has its own separate RPM/RPD quota bucket!)
     for k in _split_keys("GEMINI_API_KEY"):
-        gem_models = (
-            ["gemini-2.5-flash-lite", "gemini-2.0-flash-lite", "gemini-2.5-flash", "gemini-2.0-flash"]
-            if task_tier in ("fast_light", "structured_json")
-            else ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-2.5-flash-lite", "gemini-1.5-flash"]
-        )
+        gem_models = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash-exp"]
         for m in gem_models:
             pool.append({"provider": "gemini", "key": k, "model": m, "url": "gemini_native"})
 
@@ -195,7 +196,7 @@ def call_llm(
 
 def _call_gemini(api_key: str, model: str, system_prompt: str, user_prompt: str, expect_json: bool, temperature: float, max_tokens: int) -> str:
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
-    gen_cfg = {"temperature": temperature, "maxOutputTokens": max_tokens}
+    gen_cfg = {"temperature": temperature, "maxOutputTokens": max(max_tokens, 2048)}
     if expect_json:
         gen_cfg["responseMimeType"] = "application/json"
     payload = {

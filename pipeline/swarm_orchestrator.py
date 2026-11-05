@@ -45,7 +45,7 @@ def run_ideation_swarm(history_path: str, custom_focus: str = "") -> dict:
         f"Focus: {custom_focus or 'Human brain, time perception, memory, sleep, dopamine, longevity, biology paradoxes'}"
     )
     raw_ideas = call_llm(
-        ideator_sys, ideator_usr, expect_json=True, temperature=0.8, task_tier="fast_light", subagent_name="Subagent2_ParadoxIdeator", max_tokens=700
+        ideator_sys, ideator_usr, expect_json=True, temperature=0.8, task_tier="fast_light", subagent_name="Subagent2_ParadoxIdeator", max_tokens=1400
     )
     ideas_list = extract_json(raw_ideas).get("ideas", [])
 
@@ -94,7 +94,7 @@ def run_scriptwriting_swarm(idea: dict) -> dict:
         temperature=0.6,
         task_tier="reasoning_heavy",
         subagent_name="Subagent4_ActArchitect",
-        max_tokens=700,
+        max_tokens=1400,
     )
     arch = extract_json(raw_arch)
 
@@ -154,7 +154,7 @@ def run_scriptwriting_swarm(idea: dict) -> dict:
         temperature=0.6,
         task_tier="fast_light",
         subagent_name="Subagent6_PackagingSEO",
-        max_tokens=600,
+        max_tokens=1200,
     )
     seo = extract_json(raw_seo)
     SWARM_TELEMETRY["estimated_tokens_saved"] += 6400
@@ -235,7 +235,7 @@ def run_storyboard_swarm(project_dir: str, script_data: dict, use_llm_swarm: boo
                     temperature=0.4,
                     task_tier="structured_json",
                     subagent_name=f"Subagent7_StoryboardBatch_{b_idx + 1}",
-                    max_tokens=700,
+                    max_tokens=1200,
                 )
                 return extract_json(raw).get("shots", [])
             except Exception as e:
