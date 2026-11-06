@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>{{TITLE}}</title>
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="assets/words.js"></script>
+<script src="assets/arcade/arcade.js"></script>
+<script src="assets/film.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: #000; }
+  #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+  #cv { position: absolute; inset: 0; width: 1080px; height: 1920px; image-rendering: pixelated; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="30" data-width="1080" data-height="1920">
+  <canvas id="cv" width="1080" height="1920" data-layout-allow-overflow></canvas>
+  <audio id="mix" class="clip" src="assets/audio/mix.wav" data-start="0" data-duration="30" data-track-index="10" data-volume="1"></audio>
+</div>
+<script>
+(async () => {
+  await FILM.load();
+  const ctx = document.getElementById('cv').getContext('2d');
+  const clock = { t: 0 };
+  const tl = gsap.timeline({ paused: true });
+  tl.to(clock, { t: FILM.DUR, duration: FILM.DUR, ease: 'none', onUpdate: () => FILM.render(ctx, clock.t) }, 0);
+  FILM.render(ctx, 0);
+  window.__timelines = window.__timelines || {};
+  window.__timelines['main'] = tl;
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,527 @@
+[
+{
+"i": 0,
+"text": "1981.",
+"line": 0,
+"start": 0.77,
+"end": 1.614
+},
+{
+"i": 1,
+"text": "Nintendo",
+"line": 0,
+"start": 1.835,
+"end": 2.297
+},
+{
+"i": 2,
+"text": "is",
+"line": 0,
+"start": 2.418,
+"end": 2.478
+},
+{
+"i": 3,
+"text": "stuck",
+"line": 0,
+"start": 2.538,
+"end": 2.779
+},
+{
+"i": 4,
+"text": "with",
+"line": 0,
+"start": 2.859,
+"end": 2.98
+},
+{
+"i": 5,
+"text": "two",
+"line": 0,
+"start": 3.08,
+"end": 3.221
+},
+{
+"i": 6,
+"text": "thousand",
+"line": 0,
+"start": 3.321,
+"end": 3.683
+},
+{
+"i": 7,
+"text": "arcade",
+"line": 0,
+"start": 3.763,
+"end": 4.085
+},
+{
+"i": 8,
+"text": "machines",
+"line": 0,
+"start": 4.145,
+"end": 4.527
+},
+{
+"i": 9,
+"text": "nobody",
+"line": 0,
+"start": 4.647,
+"end": 5.009
+},
+{
+"i": 10,
+"text": "wants.",
+"line": 0,
+"start": 5.069,
+"end": 5.33
+},
+{
+"i": 11,
+"text": "So",
+"line": 1,
+"start": 5.691,
+"end": 5.772
+},
+{
+"i": 12,
+"text": "Shigeru",
+"line": 1,
+"start": 5.913,
+"end": 6.518
+},
+{
+"i": 13,
+"text": "Miyamoto",
+"line": 1,
+"start": 6.639,
+"end": 7.143
+},
+{
+"i": 14,
+"text": "draws",
+"line": 1,
+"start": 7.304,
+"end": 7.546
+},
+{
+"i": 15,
+"text": "a",
+"line": 1,
+"start": 7.626,
+"end": 7.646
+},
+{
+"i": 16,
+"text": "new",
+"line": 1,
+"start": 7.687,
+"end": 7.787
+},
+{
+"i": 17,
+"text": "game",
+"line": 1,
+"start": 7.848,
+"end": 8.049
+},
+{
+"i": 18,
+"text": "for",
+"line": 1,
+"start": 8.11,
+"end": 8.191
+},
+{
+"i": 19,
+"text": "them.",
+"line": 1,
+"start": 8.251,
+"end": 8.352
+},
+{
+"i": 20,
+"text": "His",
+"line": 2,
+"start": 8.674,
+"end": 8.775
+},
+{
+"i": 21,
+"text": "hero:",
+"line": 2,
+"start": 8.856,
+"end": 9.118
+},
+{
+"i": 22,
+"text": "sixteen",
+"line": 2,
+"start": 9.26,
+"end": 9.603
+},
+{
+"i": 23,
+"text": "by",
+"line": 2,
+"start": 9.664,
+"end": 9.745
+},
+{
+"i": 24,
+"text": "sixteen",
+"line": 2,
+"start": 9.846,
+"end": 10.189
+},
+{
+"i": 25,
+"text": "pixels.",
+"line": 2,
+"start": 10.27,
+"end": 10.633
+},
+{
+"i": 26,
+"text": "Can't",
+"line": 3,
+"start": 10.956,
+"end": 11.138
+},
+{
+"i": 27,
+"text": "draw",
+"line": 3,
+"start": 11.178,
+"end": 11.299
+},
+{
+"i": 28,
+"text": "hair?",
+"line": 3,
+"start": 11.4,
+"end": 11.542
+},
+{
+"i": 29,
+"text": "Give",
+"line": 3,
+"start": 11.622,
+"end": 11.724
+},
+{
+"i": 30,
+"text": "him",
+"line": 3,
+"start": 11.764,
+"end": 11.845
+},
+{
+"i": 31,
+"text": "a",
+"line": 3,
+"start": 11.885,
+"end": 11.926
+},
+{
+"i": 32,
+"text": "cap.",
+"line": 3,
+"start": 11.966,
+"end": 12.188
+},
+{
+"i": 33,
+"text": "No",
+"line": 4,
+"start": 12.531,
+"end": 12.611
+},
+{
+"i": 34,
+"text": "room",
+"line": 4,
+"start": 12.712,
+"end": 12.853
+},
+{
+"i": 35,
+"text": "for",
+"line": 4,
+"start": 12.893,
+"end": 12.994
+},
+{
+"i": 36,
+"text": "a",
+"line": 4,
+"start": 13.034,
+"end": 13.054
+},
+{
+"i": 37,
+"text": "mouth?",
+"line": 4,
+"start": 13.074,
+"end": 13.276
+},
+{
+"i": 38,
+"text": "A",
+"line": 4,
+"start": 13.396,
+"end": 13.417
+},
+{
+"i": 39,
+"text": "moustache.",
+"line": 4,
+"start": 13.457,
+"end": 13.9
+},
+{
+"i": 40,
+"text": "They",
+"line": 5,
+"start": 14.221,
+"end": 14.302
+},
+{
+"i": 41,
+"text": "call",
+"line": 5,
+"start": 14.362,
+"end": 14.482
+},
+{
+"i": 42,
+"text": "him",
+"line": 5,
+"start": 14.563,
+"end": 14.623
+},
+{
+"i": 43,
+"text": "Jumpman,",
+"line": 5,
+"start": 14.723,
+"end": 15.065
+},
+{
+"i": 44,
+"text": "until",
+"line": 6,
+"start": 15.346,
+"end": 15.608
+},
+{
+"i": 45,
+"text": "Nintendo",
+"line": 6,
+"start": 15.668,
+"end": 16.17
+},
+{
+"i": 46,
+"text": "names",
+"line": 6,
+"start": 16.27,
+"end": 16.491
+},
+{
+"i": 47,
+"text": "him",
+"line": 6,
+"start": 16.552,
+"end": 16.652
+},
+{
+"i": 48,
+"text": "after",
+"line": 6,
+"start": 16.813,
+"end": 16.973
+},
+{
+"i": 49,
+"text": "its",
+"line": 6,
+"start": 17.034,
+"end": 17.134
+},
+{
+"i": 50,
+"text": "landlord,",
+"line": 6,
+"start": 17.194,
+"end": 17.616
+},
+{
+"i": 51,
+"text": "Mario",
+"line": 6,
+"start": 17.837,
+"end": 18.239
+},
+{
+"i": 52,
+"text": "Segale.",
+"line": 6,
+"start": 18.379,
+"end": 18.962
+},
+{
+"i": 53,
+"text": "1985.",
+"line": 7,
+"start": 19.242,
+"end": 20.224
+},
+{
+"i": 54,
+"text": "Super",
+"line": 7,
+"start": 20.484,
+"end": 20.725
+},
+{
+"i": 55,
+"text": "Mario",
+"line": 7,
+"start": 20.765,
+"end": 21.126
+},
+{
+"i": 56,
+"text": "Bros.",
+"line": 7,
+"start": 21.226,
+"end": 21.566
+},
+{
+"i": 57,
+"text": "sells",
+"line": 7,
+"start": 21.647,
+"end": 21.907
+},
+{
+"i": 58,
+"text": "over",
+"line": 7,
+"start": 21.967,
+"end": 22.107
+},
+{
+"i": 59,
+"text": "forty",
+"line": 7,
+"start": 22.228,
+"end": 22.508
+},
+{
+"i": 60,
+"text": "million",
+"line": 7,
+"start": 22.568,
+"end": 22.869
+},
+{
+"i": 61,
+"text": "copies.",
+"line": 7,
+"start": 22.949,
+"end": 23.41
+},
+{
+"i": 62,
+"text": "Today,",
+"line": 8,
+"start": 23.731,
+"end": 23.973
+},
+{
+"i": 63,
+"text": "Mario",
+"line": 8,
+"start": 24.094,
+"end": 24.457
+},
+{
+"i": 64,
+"text": "is",
+"line": 8,
+"start": 24.619,
+"end": 24.659
+},
+{
+"i": 65,
+"text": "the",
+"line": 8,
+"start": 24.719,
+"end": 24.78
+},
+{
+"i": 66,
+"text": "best-selling",
+"line": 8,
+"start": 24.82,
+"end": 25.345
+},
+{
+"i": 67,
+"text": "game",
+"line": 8,
+"start": 25.385,
+"end": 25.587
+},
+{
+"i": 68,
+"text": "series",
+"line": 8,
+"start": 25.648,
+"end": 25.991
+},
+{
+"i": 69,
+"text": "ever.",
+"line": 8,
+"start": 26.092,
+"end": 26.253
+},
+{
+"i": 70,
+"text": "Not",
+"line": 9,
+"start": 26.555,
+"end": 26.676
+},
+{
+"i": 71,
+"text": "bad",
+"line": 9,
+"start": 26.736,
+"end": 26.958
+},
+{
+"i": 72,
+"text": "for",
+"line": 9,
+"start": 27.039,
+"end": 27.119
+},
+{
+"i": 73,
+"text": "256",
+"line": 9,
+"start": 27.22,
+"end": 28.067
+},
+{
+"i": 74,
+"text": "pixels.",
+"line": 9,
+"start": 28.208,
+"end": 28.571
+}
+]
