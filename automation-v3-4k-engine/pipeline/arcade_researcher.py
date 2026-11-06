@@ -11,8 +11,26 @@ Adheres strictly to arcade-motiongraphics/SKILL.md:
 import os, sys, json, re, urllib.request
 from pathlib import Path
 
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 ROOT_DIR = Path(__file__).resolve().parent.parent
 HISTORY_PATH = ROOT_DIR / "archive/published_history.json"
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+try:
+    from evaluator import load_learning_ledger
+except ImportError:
+    load_learning_ledger = None
+try:
+    from youtube_learner import load_viral_knowledge_base, format_viral_title
+except ImportError:
+    load_viral_knowledge_base = None
+    format_viral_title = None
 
 # High-retention pre-curated story blueprints (with pre-verified dual sources and Wikimedia Commons assets)
 CURATED_STORIES = [
@@ -225,21 +243,50 @@ def get_published_slugs() -> set[str]:
     return slugs
 
 
+def apply_learned_improvements(story: dict) -> dict:
+    """Ingests continuous learning ledger and viral knowledge base to improve story parameters."""
+    improved = dict(story)
+    
+    # Ingest ledger recommendations from past evaluations
+    if load_learning_ledger:
+        ledger = load_learning_ledger()
+        cum = ledger.get("cumulative_learned_parameters", {})
+        if "recommended_speed" in cum:
+            improved["speed"] = cum["recommended_speed"]
+        if "recommended_lead" in cum:
+            improved["lead"] = cum["recommended_lead"]
+        if "recommended_gap" in cum:
+            improved["gap"] = cum["recommended_gap"]
+
+    # Ingest competitor title formulas from viral knowledge base
+    if format_viral_title:
+        improved["title"] = format_viral_title(improved.get("title", ""))
+
+    return improved
+
+
 def select_topic_for_today(forced_slug: str = None) -> dict:
     published = get_published_slugs()
 
+    selected = None
     if forced_slug:
         for s in CURATED_STORIES:
             if s["slug"] == forced_slug:
-                return s
+                selected = s
+                break
 
-    # Pick first un-published curated story
-    for s in CURATED_STORIES:
-        if s["slug"] not in published:
-            return s
+    if not selected:
+        # Pick first un-published curated story
+        for s in CURATED_STORIES:
+            if s["slug"] not in published:
+                selected = s
+                break
 
-    # If all published, loop from start with a variant or latest
-    return CURATED_STORIES[len(published) % len(CURATED_STORIES)]
+    if not selected:
+        # If all published, loop from start with a variant or latest
+        selected = CURATED_STORIES[len(published) % len(CURATED_STORIES)]
+
+    return apply_learned_improvements(selected)
 
 
 def write_project_sources_markdown(project_dir: Path, story: dict):

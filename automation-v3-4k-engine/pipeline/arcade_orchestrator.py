@@ -32,6 +32,8 @@ from high_rpm_scheduler import calculate_schedule_times
 from arcade_researcher import select_topic_for_today, write_project_sources_markdown, CURATED_STORIES
 from arcade_film_writer import generate_film_js
 from visual_qa import run_visual_qa
+from evaluator import evaluate_video, load_learning_ledger
+from youtube_learner import sync_viral_trends, get_recommended_tags
 from youtube_uploader import upload_to_youtube, backup_with_rclone
 
 
@@ -103,12 +105,44 @@ def run_episode_pipeline(story: dict, schedule_info: dict, dry_run: bool = False
     render_time = time.time() - t0
     print(f"Render completed in {render_time:.1f}s -> {output_mp4}")
 
-    # Visual QA Gate
+    # Visual QA Gate & AI Video Evaluation
     print("\n[QA Gate] Running Contact Sheet & Frame Quality Assurance...")
     qa_report = run_visual_qa(output_mp4, project_dir)
     print("QA Result:", qa_report["status"])
-    if qa_report["status"] != "PASSED":
-        print(f"Warning: Visual QA reported issues: {qa_report}")
+
+    # Continuous Learning & Self-Correction Evaluation
+    print("\n[AI Evaluation Gate] Evaluating video pacing, retention & technical fidelity...")
+    eval_report = evaluate_video(output_mp4, project_dir, story)
+    print(f"Evaluation Score: {eval_report['overall_score']}/100 | Status: {eval_report['status']}")
+
+    # Self-Healing Loop: If video is flawed or below threshold, auto-correct and re-render once
+    if not eval_report.get("is_correct", True):
+        print(f"\n⚠️  DEFECT DETECTED ({eval_report['overall_score']}/100): Autonomous Self-Healing Activated!")
+        for flaw in eval_report.get("flaws_detected", []):
+            print(f"   • [{flaw.get('impact')}] {flaw.get('code')}: {flaw.get('detail')}")
+
+        patch = eval_report.get("remediation_patch", {})
+        print(f"   🔧 Applying Remediation Patch: {patch}")
+        for k, v in patch.items():
+            script_data[k] = v
+            story[k] = v
+
+        (project_dir / "work/script.json").write_text(json.dumps(script_data, indent=1), encoding="utf-8")
+
+        print("   🔄 Re-running audio synthesis and HyperFrames render with patched parameters...")
+        subprocess.run([sys.executable, str(TOOLS_DIR / "vo.py"), str(project_dir)], check=True)
+        subprocess.run([sys.executable, str(TOOLS_DIR / "align.py"), str(project_dir)], check=True)
+        subprocess.run([sys.executable, str(TOOLS_DIR / "words_js.py"), str(project_dir)], check=True)
+        subprocess.run([sys.executable, str(project_dir / "work/make_cues.py")], cwd=str(project_dir), check=True)
+        subprocess.run([sys.executable, str(TOOLS_DIR / "chip.py"), str(project_dir)], check=True)
+        subprocess.run([sys.executable, str(TOOLS_DIR / "mix.py"), str(project_dir)], check=True)
+        generate_film_js(project_dir, story)
+        subprocess.run(render_cmd, cwd=str(project_dir), shell=True, check=True)
+
+        # Re-evaluate patched video
+        eval_report = evaluate_video(output_mp4, project_dir, story)
+        qa_report = run_visual_qa(output_mp4, project_dir)
+        print(f"   ✅ Self-Healing Complete: New Score: {eval_report['overall_score']}/100 | Status: {eval_report['status']}")
 
     # Prepare YouTube Metadata with Fact-Checking Sources & Credits
     sources_text = "\n".join(f"• {s['claim']} (Sources: {s['sources']})" for s in story.get("sources", []))
@@ -124,10 +158,11 @@ def run_episode_pipeline(story: dict, schedule_info: dict, dry_run: bool = False
         f"#ArcadeMotionGraphics #FounderStories #TechHistory #Shorts #RetroGaming"
     )
 
+    recommended_tags = get_recommended_tags(slug)
     yt_script_data = {
         "title": f"{title} 🕹️",
         "youtube_description": description,
-        "youtube_tags": [slug.replace("-", " "), "arcade motion graphics", "founder story", "tech history", "retro gaming", "shorts"],
+        "youtube_tags": recommended_tags,
         "chapters": [{"time": "0:00", "title": "The Level One Problem"}]
     }
 
@@ -163,7 +198,10 @@ def run_episode_pipeline(story: dict, schedule_info: dict, dry_run: bool = False
         "contact_sheet": str(project_dir / "work/contact_sheet.jpg"),
         "youtube_video_id": upload_result.get("video_id"),
         "youtube_url": upload_result.get("url"),
-        "qa_status": qa_report["status"]
+        "qa_status": qa_report["status"],
+        "evaluation_score": eval_report["overall_score"],
+        "evaluation_status": eval_report["status"],
+        "flaws_detected": eval_report.get("flaws_detected", [])
     }
 
     ARCHIVE_DIR.mkdir(parents=True, exist_ok=True)
@@ -191,7 +229,11 @@ def main():
     print("🚀 AUTOMATION V3: AUTONOMOUS ARCADE MOTION GRAPHICS PIPELINE")
     print("==================================================================")
 
-    # 1. Determine dynamic daily quota
+    # 1. Sync Competitor Trends into Viral Knowledge Base
+    print("\n🧠 Synchronizing Competitor Intelligence & Viral Retention Formulas...")
+    sync_viral_trends(dry_run=args.dry_run)
+
+    # 2. Determine dynamic daily quota
     quota_info = get_daily_upload_quota(force_quota=args.force_quota, mock_views=args.mock_views)
     quota = quota_info["quota"]
     print(f"\n📊 Dynamic Analytics Evaluation:")
@@ -199,20 +241,20 @@ def main():
     print(f"   Target Daily Quota: {quota} video(s)")
     print(f"   Tier: {quota_info['tier_description']}")
 
-    # 2. Calculate High-RPM Schedules
+    # 3. Calculate High-RPM Schedules
     schedules = calculate_schedule_times(quota)
     print(f"\n📅 High-RPM Publication Schedule (US Eastern Peak Windows):")
     for s in schedules:
         print(f"   Slot {s['slot_index']}/{quota}: {s['est_time_str']} -> UTC: {s['iso_publish_time']}")
 
-    # 3. Generate episodes for today's quota
+    # 4. Generate episodes for today's quota
     results = []
     for idx in range(quota):
         sched = schedules[idx]
         if args.topic and idx == 0:
             story = select_topic_for_today(forced_slug=args.topic)
         else:
-            story = CURATED_STORIES[idx % len(CURATED_STORIES)]
+            story = select_topic_for_today()
 
         record = run_episode_pipeline(story, sched, dry_run=args.dry_run)
         results.append(record)

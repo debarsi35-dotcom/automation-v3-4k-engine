@@ -1,0 +1,86 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-11-06T12:11:07Z",
+  "cumulative_learned_parameters": {
+    "recommended_speed": 1.14,
+    "recommended_lead": 0.45,
+    "recommended_gap": 0.12,
+    "recommended_title_prefix": "How",
+    "target_wpm": 155
+  },
+  "evaluation_history": [
+    {
+      "slug": "how-youtube-started",
+      "title": "How YouTube Was Born",
+      "evaluated_at": "2026-11-06T12:03:36Z",
+      "overall_score": 100,
+      "status": "EXCELLENT",
+      "is_correct": true,
+      "flaws_detected": [],
+      "remediation_patch": {
+        "lead": 0.45,
+        "speed": 1.18,
+        "gap": 0.12
+      },
+      "metrics": {
+        "duration_seconds": 30.0,
+        "words_count": 75,
+        "words_per_minute": 150.0,
+        "hook_onset_seconds": 0.77,
+        "visual_variance": 79.4
+      }
+    },
+    {
+      "slug": "how-netflix-beat-blockbuster",
+      "title": "How Netflix Beat Blockbuster \ud83d\udd79\ufe0f",
+      "evaluated_at": "2026-11-06T12:08:45Z",
+      "overall_score": 90,
+      "status": "EXCELLENT",
+      "is_correct": true,
+      "flaws_detected": [
+        {
+          "code": "PACING_TOO_FAST",
+          "detail": "Pacing density is 210.0 WPM (Voiceover may sound rushed)",
+          "impact": "MEDIUM"
+        }
+      ],
+      "remediation_patch": {
+        "lead": 0.45,
+        "speed": 1.14
+      },
+      "metrics": {
+        "duration_seconds": 30.0,
+        "words_count": 105,
+        "words_per_minute": 210.0,
+        "hook_onset_seconds": 0.49,
+        "visual_variance": 58.4
+      }
+    },
+    {
+      "slug": "how-netflix-beat-blockbuster",
+      "title": "How Netflix Beat Blockbuster \ud83d\udd79\ufe0f",
+      "evaluated_at": "2026-11-06T12:11:07Z",
+      "overall_score": 90,
+      "status": "EXCELLENT",
+      "is_correct": true,
+      "flaws_detected": [
+        {
+          "code": "PACING_TOO_FAST",
+          "detail": "Pacing density is 210.0 WPM (Voiceover may sound rushed)",
+          "impact": "MEDIUM"
+        }
+      ],
+      "remediation_patch": {
+        "lead": 0.45,
+        "speed": 1.14
+      },
+      "metrics": {
+        "duration_seconds": 30.0,
+        "words_count": 105,
+        "words_per_minute": 210.0,
+        "hook_onset_seconds": 0.49,
+        "visual_variance": 58.4
+      }
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "version": "1.0",
+  "niche": "Tech, Founder & Company Origin Stories (Arcade Style)",
+  "last_synced": "2026-11-06T12:06:18Z",
+  "top_performing_title_formulas": [
+    "How {Subject} {PowerVerb} {Target}",
+    "The {Adjective} Trick That Built {Subject}",
+    "Why {Competitor} Couldn't Stop {Subject}",
+    "From Garage to ${Amount}B: The {Subject} Story",
+    "The 1 Secret Behind {Subject}'s {Achievement}"
+  ],
+  "high_ctr_power_verbs": [
+    "Destroyed",
+    "Crushed",
+    "Outsmarted",
+    "Conquered",
+    "Stole",
+    "Invented",
+    "Hacked",
+    "Saved",
+    "Built",
+    "Disrupted"
+  ],
+  "high_conversion_tags": [
+    "shorts",
+    "founderstory",
+    "techhistory",
+    "retrogaming",
+    "entrepreneurship",
+    "businesscase",
+    "arcademotiongraphics",
+    "siliconvalley",
+    "startuplife",
+    "gamedevelopment"
+  ],
+  "retention_benchmarks": {
+    "optimal_duration_seconds": [
+      28.0,
+      36.0
+    ],
+    "target_wpm": 158,
+    "max_hook_latency_seconds": 0.95,
+    "first_frame_text_required": true,
+    "recommended_voice_speed": 1.2,
+    "recommended_lead_silence": 0.45,
+    "recommended_inter_line_gap": 0.08
+  },
+  "analyzed_competitors_samples": [
+    {
+      "title": "How Netflix Destroyed Blockbuster in 60 Seconds",
+      "views": 4200000,
+      "estimated_wpm": 162,
+      "hook_phrase": "In 1997, one late fee destroyed an entire empire.",
+      "pattern": "Start with a dollar/consequence shock"
+    },
+    {
+      "title": "How Steve Jobs Stole the GUI from Xerox",
+      "views": 7800000,
+      "estimated_wpm": 156,
+      "hook_phrase": "Xerox invented the modern computer. Steve Jobs made it famous.",
+      "pattern": "Contrast two forces in sentence one"
+    },
+    {
+      "title": "The $1.65 Billion YouTube Gamble That Paid Off",
+      "views": 3100000,
+      "estimated_wpm": 159,
+      "hook_phrase": "Three PayPal guys couldn't email a video clip.",
+      "pattern": "Relatable frustration leads to billion dollar win"
+    },
+    {
+      "title": "How Nintendo Turned a Playing Card Company into Mario",
+      "views": 5400000,
+      "estimated_wpm": 154,
+      "hook_phrase": "Before video games existed, Nintendo sold playing cards.",
+      "pattern": "Unexpected origin paradox"
+    }
+  ]
+}

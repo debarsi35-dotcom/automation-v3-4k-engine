@@ -18,11 +18,18 @@ A 100% $0-cost, anti-slop, autonomous YouTube automation engine that crafts vira
      - **1 Daily Video**: 14:00 EST (19:00 UTC)
      - **3 Daily Videos**: 11:30 EST, 15:30 EST, 19:30 EST
      - **5 Daily Shorts**: 09:00 EST, 12:00 EST, 15:00 EST, 18:00 EST, 21:00 EST
-4. **Anti-Slop Fact-Checking & Visual QA Gate**:
+4. **AI Video Self-Evaluation & Autonomous Defect Self-Correction**:
+   - Every rendered video is evaluated by `pipeline/evaluator.py` across technical QA, hook latency (<1.2s), WPM pacing (145-175 WPM), and contact sheet visual variance.
+   - If flawed or substandard, the engine applies an autonomous remediation patch and re-renders the video once before publishing.
+   - Lessons learned are permanently recorded in `archive/continuous_learning_ledger.json` to improve all future videos.
+5. **Continuous YouTube Competitor Learning**:
+   - `pipeline/youtube_learner.py` extracts top-performing title structures, viral tag clusters, and pacing metrics from trending shorts into `archive/viral_knowledge_base.json`.
+6. **Anti-Slop Fact-Checking & Visual QA Gate**:
    - Every historical claim is verified against at least **two independent reliable sources** and logged in `SOURCES.md`.
    - Automated contact sheet quality assurance (`sheets.py` + `visual_qa.py`) validates video duration, audio loudness (-15.0 LUFS), and visual liveness before approving publication.
-5. **Retired Legacy Slop Pipeline**:
+7. **Retired Legacy Slop Pipeline & Strict <100 File Footprint**:
    - Monolithic 4K long-form and generic 5-shorts splitter completely removed.
+   - The entire repository contains **only 62 files**, well below GitHub's 100-file upload limit.
 
 ---
 
@@ -34,6 +41,8 @@ automation-v3-4k-engine/
 │   └── daily_video_v2.yml        # Cloud daily autopilot running in <15 minutes
 ├── pipeline/
 │   ├── arcade_orchestrator.py    # Master end-to-end multi-agent pipeline
+│   ├── evaluator.py              # AI video evaluation & self-healing gate
+│   ├── youtube_learner.py        # YouTube competitor trend & viral learning engine
 │   ├── analytics_scaler.py       # Dynamic 24h view analytics & quota engine
 │   ├── high_rpm_scheduler.py     # US Eastern prime time publication scheduler
 │   ├── arcade_researcher.py      # Dual-source topic & script generator
@@ -48,6 +57,8 @@ automation-v3-4k-engine/
 │   └── youtube-daily-autopilot/  # Scheduling & upload skill
 ├── archive/
 │   ├── published_history.json    # Persistent log of generated episodes
+│   ├── continuous_learning_ledger.json # Lessons learned from video evaluations
+│   ├── viral_knowledge_base.json # Competitor intelligence & viral formulas
 │   └── legacy_slop/              # Retired legacy long-form & splitter scripts
 └── README.md
 ```

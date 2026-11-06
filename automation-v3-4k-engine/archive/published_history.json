@@ -156,5 +156,28 @@
     "youtube_video_id": "dry_run_how-youtube-started",
     "youtube_url": "https://youtu.be/dry_run_how-youtube-started",
     "qa_status": "PASSED"
+  },
+  {
+    "slug": "how-netflix-beat-blockbuster",
+    "title": "How Netflix Beat Blockbuster \ud83d\udd79\ufe0f",
+    "timestamp": "2026-11-06T12:08:45.155647+00:00",
+    "published_at": "2026-11-06T19:00:00Z",
+    "scheduled_est": "2026-11-06 02:00 PM EST",
+    "render_seconds": 144.3,
+    "video_duration": 30.0,
+    "mp4_path": "C:\\Users\\debar\\arcade-motiongraphics\\how-netflix-beat-blockbuster\\renders\\how-netflix-beat-blockbuster.mp4",
+    "contact_sheet": "C:\\Users\\debar\\arcade-motiongraphics\\how-netflix-beat-blockbuster\\work\\contact_sheet.jpg",
+    "youtube_video_id": "dry_run_how-netflix-beat-blockbuster",
+    "youtube_url": "https://youtu.be/dry_run_how-netflix-beat-blockbuster",
+    "qa_status": "PASSED",
+    "evaluation_score": 90,
+    "evaluation_status": "EXCELLENT",
+    "flaws_detected": [
+      {
+        "code": "PACING_TOO_FAST",
+        "detail": "Pacing density is 210.0 WPM (Voiceover may sound rushed)",
+        "impact": "MEDIUM"
+      }
+    ]
   }
 ]
